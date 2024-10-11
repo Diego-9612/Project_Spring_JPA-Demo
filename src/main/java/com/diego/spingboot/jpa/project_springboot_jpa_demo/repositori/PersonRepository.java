@@ -3,11 +3,36 @@ package com.diego.spingboot.jpa.project_springboot_jpa_demo.repositori;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import com.diego.spingboot.jpa.project_springboot_jpa_demo.dto.PersonDto;
 import com.diego.spingboot.jpa.project_springboot_jpa_demo.entities.Person;
 import java.util.List;
 import java.util.Optional;
 
 public interface PersonRepository extends CrudRepository<Person, Long> {
+
+    @Query("select new com.diego.spingboot.jpa.project_springboot_jpa_demo.dto.PersonDto(p.name, p.lastName) from Person p")
+    List<PersonDto> findAllPersonDto();
+
+    @Query("select new Person(p.name, p.lastName) from Person p")
+    List<Person> findAllObjectPersonPersonalized();
+
+    @Query("select p.name from Person p where p.id=?1")
+    String getNameById(Long id);
+
+    @Query("select p.id from Person p where p.id=?1")
+    Long getIdById(Long id);
+
+    @Query("select CONCAT(p.name, ' ', p.lastName) as fullname from Person p where p.id=?1")
+    String getFullNameById(Long id);
+
+    @Query("select p, p.programingLanguage from Person p")
+    List<Object[]> findAllMixPerson();
+    
+    @Query("select p.id, p.name, p.lastName, p.programinglanguage from Person p where p.id=?1")
+    Optional<Object> obtenerPersonDataById(Long id);
+
+    @Query("select p.id, p.name, p.lastname, p.programmingLanguage from Person p")
+    List<Object[]> obtenerPersonDataList();
 
     // Método personalizado con @Query para buscar una persona por su ID
     @Query("select p from Person p where p.id=?1")

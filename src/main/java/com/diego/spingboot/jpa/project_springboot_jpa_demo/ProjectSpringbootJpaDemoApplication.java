@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.diego.spingboot.jpa.project_springboot_jpa_demo.dto.PersonDto;
 import com.diego.spingboot.jpa.project_springboot_jpa_demo.entities.Person;
 import com.diego.spingboot.jpa.project_springboot_jpa_demo.repositori.PersonRepository;
 
@@ -38,6 +39,59 @@ public class ProjectSpringbootJpaDemoApplication implements CommandLineRunner {
         findByNameContaining("Diego");
 		create();
     }
+
+	@Transactional(readOnly = true)
+	public void personalizedQueries2() {
+		System.out.println("================== consulta por objeto persona y lenguaje de programacion ==================");
+		List<Object[]> personsRegs = personRepository.findAllMixPerson();
+
+		personsRegs.forEach(reg -> {
+			System.out.println("programingLanguage=" + reg[1] + ", person=" + reg[0]);
+		});
+
+		System.out.println("consulta que puebla y devuelve objeto entity de una instancia personalizada");
+		List<Person> persons = personRepository.findAllObjectPersonPersonalized();
+		persons.forEach(System.out::println);
+
+		System.out.println("consulta que puebla y devuelve objeto dto de una clase personalizada");
+		List<PersonDto> personsDto = personRepository.findAllPersonDto();
+		personsDto.forEach(System.out::println);
+	}
+
+	@Transactional(readOnly = true)
+	public void personalizedQueries() {
+
+		Scanner scanner = new Scanner(System.in);
+
+		System.out.println("================== consulta solo el nombre por el id ==================");
+		System.out.println("Ingrese el id:");
+		Long id = scanner.nextLong();
+		scanner.close();
+
+		System.out.println("===== mostrando solo el nombre =====");
+		String name = personRepository.getNameById(id);
+		System.out.println(name);
+
+		System.out.println("===== mostrando solo el id =====");
+		Long idDb = personRepository.getIdById(id);
+		System.out.println(idDb);
+
+		System.out.println("===== mostrando nombre completo con concat =====");
+		String fullName = personRepository.getFullNameById(id);
+		System.out.println(fullName);
+
+		System.out.println("===== consulta por campos personalizados por el id =====");
+		Optional<Object> optionalReg = personRepository.obtenerPersonDataById(id);
+		if (optionalReg.isPresent()) {
+			Object[] personReg = (Object[]) optionalReg.orElseThrow();
+			System.out.println("id="+ personReg[0] + ", nombre=" + personReg[1] + ", apellido=" + personReg[2]+ ", lenguaje="+personReg[3]);
+		}
+
+		System.out.println("===== consulta por campos personalizados lista ======");
+		List<Object[]> regs = personRepository.obtenerPersonDataList();
+		regs.forEach(reg -> System.out.println("id="+ reg[0] + ", nombre=" + reg[1] + ", apellido=" + reg[2]+ ", lenguaje="+reg[3]));
+	}
+
 
 	@Transactional
 	public void create() {
