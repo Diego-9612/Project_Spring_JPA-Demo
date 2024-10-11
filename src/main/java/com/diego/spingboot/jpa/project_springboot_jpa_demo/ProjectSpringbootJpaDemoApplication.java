@@ -27,18 +27,38 @@ public class ProjectSpringbootJpaDemoApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        findOne();
-		findByProgramingLanguage();
-        findByProgrammingLanguageAndName();
-		buscarByProgramingLanguage();
-		buscarByProgramingLanguageAndName();
-        obtenerPersonaData();
-        obtenerPersonaDataByName("Diego");
-		obtenerPersonaDataByProgramingLanguageAndName("Java", "Guerrero");
-        findOneLikeName("di");
-        findByNameContaining("Diego");
-		create();
+        //findOne();
+		//findByProgramingLanguage();
+        //findByProgrammingLanguageAndName();
+		//buscarByProgramingLanguage();
+		//buscarByProgramingLanguageAndName();
+        //obtenerPersonaData();
+        //obtenerPersonaDataByName("Diego");
+		//obtenerPersonaDataByProgramingLanguageAndName("Java", "Guerrero");
+        //findOneLikeName("di");
+        //findByNameContaining("Diego");
+		//create();
     }
+
+	@Transactional(readOnly = true)
+	public void personalizedQueriesDistinct() {
+		System.out.println("================== consultas con nombres de personas ==================");
+		List<String> names = personRepository.findAllNames();
+		names.forEach(System.out::println);
+
+		System.out.println("==================  consultas con nombres unicos de personas ==================");
+		names = personRepository.findAllNamesDistinct();
+		names.forEach(System.out::println);
+
+		System.out.println("================== consulta con lenguaje de programacion unicas ==================");
+		List<String> languages = personRepository.findAllPrograminglanguageDistinct();
+		languages.forEach(System.out::println);
+
+		System.out.println("================== consulta con total de lenguajes de programacion unicas ==================");
+		Long totalLanguage = personRepository.findAllPrograminglanguageDistinctCount();
+		System.out.println("total de lenguajes de programacion: " + totalLanguage);
+
+	}
 
 	@Transactional(readOnly = true)
 	public void personalizedQueries2() {
