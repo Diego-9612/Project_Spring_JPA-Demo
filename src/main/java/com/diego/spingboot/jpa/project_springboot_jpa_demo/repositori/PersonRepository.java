@@ -11,13 +11,40 @@ import java.util.Optional;
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
     // Método personalizado con @Query
+    // Devuelve una lista con el ID, el nombre en mayúsculas, el apellido en
+    // minúsculas y el lenguaje de programación en mayúsculas.
+    @Query("SELECT p.id, upper(p.name), lower(p.lastName), upper(p.programinglanguage) FROM Person p")
+    List<Object[]> findAllPersonDataListCase();
+
+    // Método personalizado con @Query
+    // Devuelve una lista de nombres completos concatenados (nombre + apellido) y
+    // convertidos a mayúsculas.
+    @Query("SELECT upper(p.name || ' ' || p.lastName) FROM Person p")
+    List<String> findAllFullNameConcatUpper();
+
+    // Método personalizado con @Query
+    // Devuelve una lista de nombres completos concatenados (nombre + apellido) y
+    // convertidos a minúsculas.
+    @Query("SELECT lower(concat(p.name, ' ', p.lastName)) FROM Person p")
+    List<String> findAllFullNameConcatLower();
+
+    // Método personalizado con @Query
+    // Devuelve una lista de nombres completos concatenados (nombre + apellido) sin
+    // cambios en mayúsculas o minúsculas.
+    @Query("SELECT p.name || ' ' || p.lastName FROM Person p")
+    List<String> findAllFullNameConcat();
+
+    // Método personalizado con @Query
     // Devuelve el número de lenguajes de programación distintos que existen en la
     // tabla Person.
-    @Query("SELECT COUNT(DISTINCT(p.programingLanguage)) FROM Person p")
+    @Query("SELECT COUNT(DISTINCT(p.programinglanguage)) FROM Person p")
     Long findAllPrograminglanguageDistinctCount();
 
     // Método personalizado con @Query
-    /**  Devuelve una lista de todos los lenguajes de programación distintos (sin duplicados) presentes en la tabla Person. */
+    /**
+     * Devuelve una lista de todos los lenguajes de programación distintos (sin
+     * duplicados) presentes en la tabla Person.
+     */
     @Query("SELECT DISTINCT(p.programinglanguage) FROM Person p")
     List<String> findAllPrograminglanguageDistinct();
 
