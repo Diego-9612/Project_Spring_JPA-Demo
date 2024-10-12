@@ -10,6 +10,39 @@ import java.util.Optional;
 
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
+    // Método predeterminado de Spring Data JPA
+    // Devuelve una lista de personas ordenadas por nombre ascendente (A-Z) y por
+    // apellido descendente (Z-A).
+    List<Person> findAllByOrderByNameAscLastNameDesc();
+
+    // Método personalizado con @Query
+    // Selecciona todas las personas y las ordena por nombre ascendente y apellido
+    // descendente.
+    @Query("SELECT p FROM Person p ORDER BY p.name, p.lastName DESC")
+    List<Person> getAllOrdered();
+
+    // Método predeterminado de Spring Data JPA
+    // Busca todas las personas cuyo ID esté entre id1 e id2 y las ordena por nombre
+    // ascendente.
+    List<Person> findByIdBetweenOrderByNameAsc(Long id1, Long id2);
+
+    // Método predeterminado de Spring Data JPA
+    // Busca todas las personas cuyo nombre esté entre name1 y name2, y las ordena
+    // por nombre descendente y apellido descendente.
+    List<Person> findByNameBetweenOrderByNameDescLastNameDesc(String name1, String name2);
+
+    // Método personalizado con @Query
+    // Selecciona todas las personas cuyo ID esté entre id1 e id2 y las ordena por
+    // nombre descendente.
+    @Query("SELECT p FROM Person p WHERE p.id BETWEEN ?1 AND ?2 ORDER BY p.name DESC")
+    List<Person> findAllBetweenId(Long id1, Long id2);
+
+    // Método personalizado con @Query
+    // Selecciona todas las personas cuyo nombre esté entre c1 y c2, y las ordena
+    // por nombre ascendente y apellido descendente.
+    @Query("SELECT p FROM Person p WHERE p.name BETWEEN ?1 AND ?2 ORDER BY p.name ASC, p.lastName DESC")
+    List<Person> findAllBetweenName(String c1, String c2);
+
     // Método personalizado con @Query
     // Devuelve una lista con el ID, el nombre en mayúsculas, el apellido en
     // minúsculas y el lenguaje de programación en mayúsculas.
@@ -90,7 +123,7 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
     // Método personalizado con @Query
     // Devuelve una lista de arrays de objetos que contienen tanto la entidad Person
     // como su lenguaje de programación.
-    @Query("SELECT p, p.programingLanguage FROM Person p")
+    @Query("SELECT p, p.programinglanguage FROM Person p")
     List<Object[]> findAllMixPerson();
 
     // Método personalizado con @Query
@@ -102,7 +135,7 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
     // Método personalizado con @Query
     // Devuelve una lista de arrays de objetos que contienen los campos id, name,
     // lastName, y programmingLanguage para todas las personas.
-    @Query("SELECT p.id, p.name, p.lastname, p.programmingLanguage FROM Person p")
+    @Query("SELECT p.id, p.name, p.lastName, p.programinglanguage FROM Person p")
     List<Object[]> obtenerPersonDataList();
 
     // Método personalizado con @Query

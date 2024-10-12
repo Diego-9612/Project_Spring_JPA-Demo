@@ -26,6 +26,11 @@ public class Person {
     public Person() {
     }
 
+    public Person(String name, String lastName) {
+        this.name = name;
+        this.lastName = lastName;
+    }
+
     public Person(Long id, String name, String lastName, String programinglanguage) {
         this.id = id;
         this.name = name;

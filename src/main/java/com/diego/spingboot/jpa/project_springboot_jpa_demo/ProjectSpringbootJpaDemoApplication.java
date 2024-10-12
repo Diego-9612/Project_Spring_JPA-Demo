@@ -38,7 +38,23 @@ public class ProjectSpringbootJpaDemoApplication implements CommandLineRunner {
         //findOneLikeName("di");
         //findByNameContaining("Diego");
 		//create();
+		//personalizedQueriesBetween();
+		//personalizedQueriesConcatUpperAndLowerCase();
     }
+
+	@Transactional(readOnly=true)
+	public void personalizedQueriesBetween() {
+		System.out.println("================== consultas por rangos ==================");
+		List<Person> persons = personRepository.findByIdBetweenOrderByNameAsc(2L, 3L);
+		persons.forEach(System.out::println);
+		
+		persons = personRepository.findByNameBetweenOrderByNameDescLastNameDesc("G", "P");
+		persons.forEach(System.out::println);
+
+		persons = personRepository.findAllByOrderByNameAscLastNameDesc();
+		persons.forEach(System.out::println);
+
+	}
 
 	@Transactional(readOnly = true)
 	public void personalizedQueriesConcatUpperAndLowerCase() {

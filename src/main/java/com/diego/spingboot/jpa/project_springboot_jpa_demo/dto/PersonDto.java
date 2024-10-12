@@ -3,11 +3,11 @@ package com.diego.spingboot.jpa.project_springboot_jpa_demo.dto;
 public class PersonDto {
 
     private String name;
-    private String lastname;
+    private String lastName;
 
-    public PersonDto(String name, String lastname) {
+    public PersonDto(String name, String lastName) {
         this.name = name;
-        this.lastname = lastname;
+        this.lastName = lastName;
     }
     public String getName() {
         return name;
@@ -15,15 +15,15 @@ public class PersonDto {
     public void setName(String name) {
         this.name = name;
     }
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
     @Override
     public String toString() {
-        return "PersonDto [name=" + name + ", lastname=" + lastname + "]";
+        return "PersonDto [name=" + name + ", lastName=" + lastName + "]";
     }
 
 }
