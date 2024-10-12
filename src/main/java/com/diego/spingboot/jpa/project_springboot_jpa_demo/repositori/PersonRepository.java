@@ -10,6 +10,44 @@ import java.util.Optional;
 
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
+    // Método personalizado con @Query
+    // Realiza varias funciones de agregación sobre la entidad Person:
+    // - Devuelve el ID mínimo, máximo, la suma de los IDs, la longitud promedio de
+    // los nombres y el conteo total de IDs.
+    @Query("SELECT MIN(p.id), MAX(p.id), SUM(p.id), AVG(length(p.name)), COUNT(p.id) FROM Person p")
+    public Object getResumeAggregationFunction();
+
+    // Método personalizado con @Query
+    // Devuelve la longitud mínima de los nombres de las personas.
+    @Query("SELECT MIN(length(p.name)) FROM Person p")
+    public Integer getMinLengthName();
+
+    // Método personalizado con @Query
+    // Devuelve la longitud máxima de los nombres de las personas.
+    @Query("SELECT MAX(length(p.name)) FROM Person p")
+    public Integer getMaxLengthName();
+
+    // Método personalizado con @Query
+    // Devuelve una lista de arreglos de objetos que contienen los nombres de las
+    // personas y la longitud de cada nombre.
+    @Query("SELECT p.name, length(p.name) FROM Person p")
+    public List<Object[]> getPersonNameLength();
+
+    // Método personalizado con @Query
+    // Devuelve el conteo total de personas en la base de datos.
+    @Query("SELECT COUNT(p) FROM Person p")
+    Long getTotalPerson();
+
+    // Método personalizado con @Query
+    // Devuelve el ID mínimo de la entidad Person.
+    @Query("SELECT MIN(p.id) FROM Person p")
+    Long getMinId();
+
+    // Método personalizado con @Query
+    // Devuelve el ID máximo de la entidad Person.
+    @Query("SELECT MAX(p.id) FROM Person p")
+    Long getMaxId();
+
     // Método predeterminado de Spring Data JPA
     // Devuelve una lista de personas ordenadas por nombre ascendente (A-Z) y por
     // apellido descendente (Z-A).
