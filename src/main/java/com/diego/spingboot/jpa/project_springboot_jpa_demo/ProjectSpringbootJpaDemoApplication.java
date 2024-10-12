@@ -3,6 +3,7 @@ package com.diego.spingboot.jpa.project_springboot_jpa_demo;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -40,7 +41,30 @@ public class ProjectSpringbootJpaDemoApplication implements CommandLineRunner {
 		// create();
 		// personalizedQueriesBetween();
 		// personalizedQueriesConcatUpperAndLowerCase();
-		queriesFunctionAggregation();
+		//queriesFunctionAggregation();
+		whereIn();
+	}
+
+	@Transactional(readOnly = true)
+	public void whereIn() {
+		System.out.println("================== consulta where in ==================");
+		List<Person> persons = personRepository.getPersonsByIds(Arrays.asList(1L, 2L, 5L, 7L));
+		persons.forEach(System.out::println);
+	}
+
+	@Transactional(readOnly = true)
+	public void subQueries() {
+		System.out.println("================== consulta por el nombre mas corto y su largo ==================");
+		List<Object[]> registers = personRepository.getShorterName();
+		registers.forEach(reg -> {
+			String name = (String) reg[0];
+			Integer length = (Integer) reg[1];
+			System.out.println("name=" + name + ", length=" + length);	
+		});
+
+		System.out.println("================== consulta pra obtener el ultimo registro de persona ==================");
+		Optional<Person> optionalPerson = personRepository.getLastRegistration();
+		optionalPerson.ifPresent(System.out::println);
 	}
 
 	@Transactional(readOnly = true)

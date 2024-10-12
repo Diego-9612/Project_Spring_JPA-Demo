@@ -11,6 +11,26 @@ import java.util.Optional;
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
     // Método personalizado con @Query
+    // Devuelve una lista de personas cuya ID está en la lista proporcionada como
+    // argumento.
+    // Se utiliza la cláusula IN para buscar múltiples IDs a la vez.
+    @Query("SELECT p FROM Person p WHERE p.id IN ?1")
+    public List<Person> getPersonsByIds(List<Long> ids);
+
+    // Método personalizado con @Query
+    // Devuelve una lista de arreglos de objetos que contienen los nombres de las
+    // personas y la longitud de aquellos nombres que son más cortos que los demás.
+    // Se utiliza una subconsulta para determinar la longitud mínima de los nombres.
+    @Query("SELECT p.name, length(p.name) FROM Person p WHERE length(p.name)=(SELECT MIN(length(p.name)) FROM Person p)")
+    public List<Object[]> getShorterName();
+
+    // Método personalizado con @Query
+    // Devuelve la persona con la ID máxima registrada en la tabla.
+    // Se utiliza una subconsulta para encontrar el registro con el ID más alto.
+    @Query("SELECT p FROM Person p WHERE p.id=(SELECT MAX(p.id) FROM Person p)")
+    public Optional<Person> getLastRegistration();
+
+    // Método personalizado con @Query
     // Realiza varias funciones de agregación sobre la entidad Person:
     // - Devuelve el ID mínimo, máximo, la suma de los IDs, la longitud promedio de
     // los nombres y el conteo total de IDs.
