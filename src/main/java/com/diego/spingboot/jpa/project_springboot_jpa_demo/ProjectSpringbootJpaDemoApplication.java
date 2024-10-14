@@ -41,7 +41,7 @@ public class ProjectSpringbootJpaDemoApplication implements CommandLineRunner {
 		// create();
 		// personalizedQueriesBetween();
 		// personalizedQueriesConcatUpperAndLowerCase();
-		//queriesFunctionAggregation();
+		// queriesFunctionAggregation();
 		whereIn();
 	}
 
@@ -59,7 +59,7 @@ public class ProjectSpringbootJpaDemoApplication implements CommandLineRunner {
 		registers.forEach(reg -> {
 			String name = (String) reg[0];
 			Integer length = (Integer) reg[1];
-			System.out.println("name=" + name + ", length=" + length);	
+			System.out.println("name=" + name + ", length=" + length);
 		});
 
 		System.out.println("================== consulta pra obtener el ultimo registro de persona ==================");
